@@ -13,6 +13,7 @@ import { Game } from "../api/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GameKeys, GameRepository } from "../api/repositories/gameRepository";
 import { BotRepository } from "../api/repositories/botRepository";
+import { RangePickerProps } from "antd/es/date-picker";
 
 const format = "HH:mm";
 const { Title, Paragraph } = Typography;
@@ -78,17 +79,23 @@ function GameScheduler() {
     resetForm(initialValues);
   };
 
+  const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().startOf("day");
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, { resetForm }: { resetForm: () => void }) => {
         if (user?.role !== "user") {
           handleSubmit(values, resetForm);
+        } else {
+          messageApi.open({
+            type: "error",
+            content: "You don't have permissions for this action!",
+          });
         }
-        messageApi.open({
-          type: "error",
-          content: "You don't have permissions for this action!",
-        });
       }}
     >
       <Form>
@@ -108,6 +115,7 @@ function GameScheduler() {
                         date
                       );
                     }}
+                    disabledDate={disabledDate}
                   />
                   <Paragraph className="!mb-0 text-red-500 text-[12px] pl-2 pt-[2px]">
                     <ErrorMessage name="date" component="div" />
@@ -120,11 +128,9 @@ function GameScheduler() {
               {(fieldProps: FieldProps) => (
                 <>
                   <TimePicker
-                    defaultValue={dayjs("12:08", format)}
                     value={fieldProps.field.value}
                     format={format}
                     onChange={(time, timeString) => {
-                      console.log(time, timeString);
                       fieldProps.form.setFieldValue(
                         fieldProps.field.name,
                         time

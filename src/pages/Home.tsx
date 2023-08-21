@@ -48,6 +48,12 @@ function Home() {
           direction="horizontal"
         >
           {games?.map((item) => {
+            var imgUrl =
+              item.location === "Arena"
+                ? "https://firebasestorage.googleapis.com/v0/b/football-scheduler-cde0c.appspot.com/o/arena.jpg?alt=media&token=05c71ec6-39e6-41be-95f5-386cf36eeb21"
+                : item.location === "Sportski"
+                ? "https://firebasestorage.googleapis.com/v0/b/football-scheduler-cde0c.appspot.com/o/sportski.jpg?alt=media&token=16325922-2e02-4e8f-8f81-392badf2dded"
+                : "https://firebasestorage.googleapis.com/v0/b/football-scheduler-cde0c.appspot.com/o/humci.jpg?alt=media&token=fad12c44-1a94-4185-8597-f8d9d1e6677b";
             return (
               <Card
                 key={item.id}
@@ -56,24 +62,22 @@ function Home() {
                 hoverable
                 cover={
                   <img
+                    loading="lazy"
                     alt="example"
                     className="max-w-full object-cover h-[158px]"
-                    src={"/images/" + item.location + ".jpg"}
+                    src={imgUrl}
                   />
                 }
-                actions={[
-                  <CheckOutlined key="check" />,
-                  <EditOutlined key="edit" />,
-                  <EyeOutlined key="ey" />,
-                ]}
               >
                 <Meta
-                  avatar={
-                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-                  }
+                  className="pb-8"
+                  avatar={<Avatar src={item.providerData?.avatar} />}
                   title={item.location}
                   description={formatDate(item.date)}
                 />
+                <p className="absolute bottom-2 right-2 text-[#8C8C8C]">
+                  created by {item.providerData?.username}
+                </p>
                 <div className="absolute top-[-2px] right-0 z-10">
                   <Badge.Ribbon
                     text={`${item.players?.length}/10`}

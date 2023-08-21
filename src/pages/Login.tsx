@@ -27,6 +27,7 @@ function Login() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    console.log(user, 'USERRRUUU')
     if (user) navigate("/");
   }, [user]);
 
@@ -50,6 +51,7 @@ function Login() {
             defensive: data.defensive,
             stamina: data.stamina,
             providerId: data.providerId,
+            avatar: data.avatar,
           });
         }
       });

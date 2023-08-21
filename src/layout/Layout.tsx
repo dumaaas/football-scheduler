@@ -9,11 +9,11 @@ type Props = {
 function Layout({ children }: Props) {
   return (
     <div>
-      <Header />
       <main className="h-screen w-full container px-4 mx-auto">
+        <Header />
         {children}
+        <Footer />
       </main>
-      <Footer />
     </div>
   );
 }

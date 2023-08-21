@@ -1,4 +1,4 @@
-import { Game } from "../types/types";
+import { Game, User } from "../types/types";
 import {
   collection,
   getDocs,
@@ -28,15 +28,26 @@ export class GameRepository {
     const querySnapshot = await getDocs(q);
     var filteredGames = [] as Game[];
 
-    querySnapshot.forEach((doc) => {
-      filteredGames.push({
-        id: doc.id,
-        location: doc.data().location,
-        date: doc.data().date,
-        providerId: doc.data().providerId,
-        players: doc.data().players,
-      });
-    });
+    await Promise.all(
+      querySnapshot.docs.map(async (document) => {
+        let userData = null;
+        if (document.data().providerId) {
+          const userRef = doc(db, "User", document.data().providerId);
+          const userSnapshot = await getDoc(userRef);
+          if (userSnapshot.exists()) {
+            userData = userSnapshot.data();
+          }
+        }
+        filteredGames.push({
+          id: document.id,
+          location: document.data().location,
+          date: document.data().date,
+          providerId: document.data().providerId,
+          players: document.data().players,
+          providerData: userData as User,
+        });
+      })
+    );
 
     return filteredGames;
   }
@@ -71,6 +82,7 @@ export class GameRepository {
               stamina: playerDoc.data().stamina,
               offensive: playerDoc.data().offensive,
               defensive: playerDoc.data().defensive,
+              avatar: playerDoc.data().avatar,
             };
           } else {
             return null;
@@ -82,12 +94,22 @@ export class GameRepository {
           (playerRef) => playerRef.id === userId
         );
 
+        let userData = null;
+        if (gameDoc.data().providerId) {
+          const userRef = doc(db, "User", gameDoc.data().providerId);
+          const userSnapshot = await getDoc(userRef);
+          if (userSnapshot.exists()) {
+            userData = userSnapshot.data();
+          }
+        }
+
         return {
           id: gameDoc.id,
           location: gameData.location,
           date: gameData.date,
           players: playersData.filter(Boolean),
           isUserJoined: isUserJoined,
+          providerData: userData,
         };
       } else {
         return null;
@@ -100,9 +122,6 @@ export class GameRepository {
     const gameDocRef = doc(db, "Game", gameId);
 
     try {
-      const userDoc = await getDoc(userDocRef);
-      const gameDoc = await getDoc(gameDocRef);
-
       const updatedGame = await updateDoc(gameDocRef, {
         players: arrayUnion(userDocRef),
       });

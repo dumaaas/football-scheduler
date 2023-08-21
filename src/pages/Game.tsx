@@ -83,7 +83,9 @@ function Game() {
         }, 1000);
       }
     }
-  }, [game]);
+  }, [game?.players]);
+
+  console.log(teamTwo, "hej?");
 
   if (isLoading) return <Loader />;
 
@@ -127,11 +129,10 @@ function Game() {
               <div className="absolute top-[16px] left-[50%] translate-x-[-50%] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamOne[0]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamOne[0] && teamOne[0].avatar
+                        ? `url(${teamOne[0].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -148,11 +149,10 @@ function Game() {
               <div className="absolute top-[60px] left-[20px] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamOne[1]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamOne[1] && teamOne[1].avatar
+                        ? `url(${teamOne[1].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -169,11 +169,10 @@ function Game() {
               <div className="absolute top-[60px] right-[20px] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamOne[2]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamOne[2] && teamOne[2].avatar
+                        ? `url(${teamOne[2].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -190,11 +189,10 @@ function Game() {
               <div className="absolute top-[33%] left-[20%] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamOne[3]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamOne[3] && teamOne[3].avatar
+                        ? `url(${teamOne[3].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -211,11 +209,10 @@ function Game() {
               <div className="absolute top-[33%] right-[20%] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamOne[4]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamOne[4] && teamOne[4].avatar
+                        ? `url(${teamOne[4].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -232,11 +229,10 @@ function Game() {
               <div className="absolute bottom-[16px] left-[50%] translate-x-[-50%] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamTwo[0]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamTwo[0] && teamTwo[0].avatar
+                        ? `url(${teamTwo[0].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -253,11 +249,10 @@ function Game() {
               <div className="absolute bottom-[60px] left-[20px] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamTwo[1]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamTwo[1] && teamTwo[1].avatar
+                        ? `url(${teamTwo[1].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -274,11 +269,10 @@ function Game() {
               <div className="absolute bottom-[60px] right-[20px] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamTwo[2]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamTwo[2] && teamTwo[2].avatar
+                        ? `url(${teamTwo[2].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -295,11 +289,10 @@ function Game() {
               <div className="absolute bottom-[33%] left-[20%] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamTwo[3]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamTwo[3] && teamTwo[3].avatar
+                        ? `url(${teamTwo[3].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}
@@ -316,11 +309,10 @@ function Game() {
               <div className="absolute bottom-[33%] right-[20%] z-30 flex flex-col items-center justify-center gap-2">
                 <div
                   style={{
-                    backgroundImage: teamTwo[4]
-                      ? `url(
-                  "https://ca.slack-edge.com/TEATS7MFX-U01TJ5NM5UZ-f2c7eff51469-512"
-                )`
-                      : "",
+                    backgroundImage:
+                      teamTwo[4] && teamTwo[4].avatar
+                        ? `url(${teamTwo[4].avatar})`
+                        : "",
                     backgroundSize: "contain",
                     backgroundPosition: "center",
                   }}

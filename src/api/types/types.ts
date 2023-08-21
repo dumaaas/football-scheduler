@@ -6,6 +6,7 @@ export interface Game {
   location: string;
   providerId: string | number;
   players?: User[];
+  providerData?: User;
 }
 
 export interface User {
@@ -16,7 +17,8 @@ export interface User {
   lastName: string;
   role: string;
   providerId?: string | number;
-  stamina: number;
-  offensive: number;
-  defensive: number
+  stamina?: number;
+  offensive?: number;
+  defensive?: number;
+  avatar: string;
 }

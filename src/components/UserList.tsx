@@ -14,6 +14,15 @@ const UserList = () => {
 
   const columns = [
     {
+      title: "Avatar",
+      dataIndex: "avatar",
+      width: 50,
+      maxWidth: 50,
+      render: (t: any, r: { avatar: string }) => (
+        <img src={`${r.avatar}`} alt={`${r.avatar}`} />
+      ),
+    },
+    {
       title: "First name",
       dataIndex: "firstName",
       key: "firstName",
@@ -34,13 +43,28 @@ const UserList = () => {
       key: "email",
     },
     {
+      title: "Stamina",
+      dataIndex: "stamina",
+      key: "stamina",
+    },
+    {
+      title: "Offensive",
+      dataIndex: "offensive",
+      key: "offensive",
+    },
+    {
+      title: "Defensive",
+      dataIndex: "defensive",
+      key: "defensive",
+    },
+    {
       title: "Role",
       dataIndex: "role",
       key: "role",
     },
   ];
 
-  console.log(users, 'users')
+  console.log(users, "users");
 
   if (isLoading) return <Loader />;
 

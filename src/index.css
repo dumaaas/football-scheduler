@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.ant-picker-ok .ant-btn {
+    background-color: #1677ff !important;
+}
+
+.ant-picker-ok .ant-btn:disabled {
+    background-color: transparent !important;
+}

@@ -8,17 +8,24 @@ import {
   setDoc,
   query,
   where,
+  updateDoc,
 } from "firebase/firestore";
 
 import { signOut } from "firebase/auth";
 
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import {
+  getDownloadURL,
+  ref,
+  updateMetadata,
+  uploadBytes,
+} from "firebase/storage";
 
 export class UserRepository {
   async registerUser(data: User) {
@@ -39,9 +46,29 @@ export class UserRepository {
       email: data.email,
       role: data.role,
       providerId: data.providerId,
+      avatar: data.avatar,
+      stamina: data.stamina,
+      defensive: data.defensive,
+      offensive: data.offensive,
     });
+  }
 
-    return userCredential;
+  async updateUser(data: User) {
+    console.log(data, "DATA?");
+    const userRef = doc(db, "User", data.id.toString());
+    updateDoc(userRef, {
+      id: data.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      username: data.username,
+      email: data.email,
+      role: data.role,
+      providerId: data.providerId,
+      avatar: data.avatar,
+      stamina: data.stamina,
+      defensive: data.defensive,
+      offensive: data.offensive,
+    });
   }
 
   async logIn({ email, password }: { email: string; password: string }) {
@@ -85,6 +112,7 @@ export class UserRepository {
         username: doc.data().username,
         email: doc.data().email,
         role: doc.data().role,
+        avatar: doc.data().avatar,
         offensive: doc.data().offensive,
         defensive: doc.data().defensive,
         stamina: doc.data().stamina,
@@ -92,6 +120,29 @@ export class UserRepository {
     });
 
     return filteredUsers;
+  }
+
+  async uploadProduct(file: Blob | ArrayBuffer) {
+    try {
+      // Upload image.
+      const imageRef = ref(storage, `images/avatar`);
+      const uploadImage = await uploadBytes(imageRef, file);
+
+      // Create file metadata.
+      const newMetadata = {
+        cacheControl: "public,max-age=2629800000", // 1 month
+        contentType: uploadImage.metadata.contentType,
+      };
+
+      await updateMetadata(imageRef, newMetadata);
+
+      // Get the image URL.
+      const publicImageUrl = await getDownloadURL(imageRef);
+      console.log("heej?", publicImageUrl);
+      return publicImageUrl;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

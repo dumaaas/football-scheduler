@@ -9,16 +9,26 @@ export const formatDate = (timestamp: Timestamp) => {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    hour12: false,
   } as Intl.DateTimeFormatOptions;
-  return date.toLocaleString("en-US", options);
+  const formattedDate = date.toLocaleString("en-US", options);
+
+  const formattedDateWithHours = formattedDate + "h";
+
+  return formattedDateWithHours;
 };
 
 export const formatTimestamp = (date: dayjs.Dayjs, time: dayjs.Dayjs) => {
-  const dateTimestamp = Timestamp.fromMillis(date.valueOf());
-  const timeTimestamp = Timestamp.fromMillis(time.diff(dayjs().startOf("day")));
+  const datePart = dayjs(date);
+  const timePart = dayjs(time);
 
-  const combinedTimestamp = dateTimestamp.toMillis() + timeTimestamp.toMillis();
-  return Timestamp.fromMillis(combinedTimestamp);
+  const combinedDateTime = datePart
+    .hour(timePart.hour())
+    .minute(timePart.minute())
+    .second(timePart.second())
+    .millisecond(timePart.millisecond());
+
+  return Timestamp.fromMillis(combinedDateTime.valueOf());
 };
 
 export function formatOnlyDate(dateString: string) {
