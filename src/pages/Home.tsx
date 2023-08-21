@@ -58,7 +58,7 @@ function Home() {
                   <img
                     alt="example"
                     className="max-w-full object-cover h-[158px]"
-                    src={item.location+'.jpg'}
+                    src={"/images/" + item.location + ".jpg"}
                   />
                 }
                 actions={[
