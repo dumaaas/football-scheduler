@@ -29,11 +29,8 @@ const beforeUpload = (file: RcFile) => {
   if (!isJpgOrPng) {
     message.error("You can only upload JPG/PNG file!");
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
+
+  return isJpgOrPng;
 };
 
 const initialValuesTemp = {
@@ -145,7 +142,10 @@ const RegisterUser = ({ isUpdate = false }: Props) => {
       }
     >
       <Form className="flex items-center justify-center py-8 flex-col">
-        <Space direction="vertical" className="w-[600px] mx-auto overflow-hidden">
+        <Space
+          direction="vertical"
+          className="w-[600px] mx-auto overflow-hidden"
+        >
           {contextHolder}
           <Upload
             name="avatar"
@@ -156,7 +156,11 @@ const RegisterUser = ({ isUpdate = false }: Props) => {
             onChange={handleChange}
           >
             {imageUrl ? (
-              <img src={imageUrl} alt="avatar" className="object-cover object-center rounded" />
+              <img
+                src={imageUrl}
+                alt="avatar"
+                className="object-cover object-center rounded"
+              />
             ) : (
               uploadButton
             )}
