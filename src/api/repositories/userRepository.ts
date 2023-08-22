@@ -4,14 +4,13 @@ import {
   getDocs,
   doc,
   getDoc,
-  addDoc,
   setDoc,
   query,
   where,
   updateDoc,
 } from "firebase/firestore";
 
-import { signOut } from "firebase/auth";
+import { sendPasswordResetEmail, signOut } from "firebase/auth";
 
 import { db, storage } from "../firebase";
 
@@ -28,6 +27,16 @@ import {
 } from "firebase/storage";
 
 export class UserRepository {
+  async resetPassword(email: string) {
+    try {
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      // Obrada greške i prosleđivanje dalje kako bi je uhvatio onError povratni poziv
+      throw error;
+    }
+  }
+
   async registerUser(data: User) {
     const auth = getAuth();
 
@@ -54,7 +63,6 @@ export class UserRepository {
   }
 
   async updateUser(data: User) {
-    console.log(data, "DATA?");
     const userRef = doc(db, "User", data.id.toString());
     updateDoc(userRef, {
       id: data.id,

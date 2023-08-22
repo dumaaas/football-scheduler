@@ -11,6 +11,8 @@ type Store = {
   setBotMessage: (text: string) => void;
   matchupString: string;
   setMatchupString: (text: string) => void;
+  rememberMe: boolean;
+  setRememberMe: (value: boolean) => void;
 };
 
 const useStore = create<Store>(
@@ -24,10 +26,12 @@ const useStore = create<Store>(
       setBotMessage: (text: string) => set({ botMessage: text }),
       matchupString: "",
       setMatchupString: (text: string) => set({ matchupString: text }),
+      rememberMe: false,
+      setRememberMe: (value: boolean) => set({ rememberMe: value }),
     }),
     {
       name: "store-storage",
-      getStorage: () => sessionStorage,
+      getStorage: () => localStorage,
     }
   ) as any
 );

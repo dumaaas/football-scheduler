@@ -58,6 +58,7 @@ export class GameRepository {
   }
 
   async getGameById(id: string | undefined, userId?: string | number) {
+    console.log(id, 'ID')
     if (id) {
       const gameDocRef = doc(db, "Game", id);
       const gameDoc = await getDoc(gameDocRef);
@@ -122,12 +123,24 @@ export class GameRepository {
     const gameDocRef = doc(db, "Game", gameId);
 
     try {
-      const updatedGame = await updateDoc(gameDocRef, {
+      await updateDoc(gameDocRef, {
         players: arrayUnion(userDocRef),
       });
 
-      return updatedGame;
-    } catch {
+      const updatedGameSnapshot = await getDoc(gameDocRef);
+
+      if (updatedGameSnapshot.exists()) {
+        const updatedGame = {
+          ...updatedGameSnapshot.data(),
+          id: updatedGameSnapshot.id,
+        };
+        return updatedGame;
+      } else {
+        console.log("Updated game does not exist");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error joining game:", error);
       return null;
     }
   }
@@ -137,12 +150,24 @@ export class GameRepository {
     const gameDocRef = doc(db, "Game", gameId);
 
     try {
-      const updatedGame = await updateDoc(gameDocRef, {
+      await updateDoc(gameDocRef, {
         players: arrayRemove(userDocRef),
       });
 
-      return updatedGame;
-    } catch {
+      const updatedGameSnapshot = await getDoc(gameDocRef);
+
+      if (updatedGameSnapshot.exists()) {
+        const updatedGame = {
+          ...updatedGameSnapshot.data(),
+          id: updatedGameSnapshot.id,
+        };
+        return updatedGame;
+      } else {
+        console.log("Updated game does not exist");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error joining game:", error);
       return null;
     }
   }

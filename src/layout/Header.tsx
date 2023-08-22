@@ -39,19 +39,25 @@ function Header() {
           <img src={logo} className="w-[60px] h-[60px]" alt="logo" />
           <p className="font-bold">Football Scheduler</p>
         </div>
-        <div className="flex flex-row gap-8 items-center">
-          {user?.role !== "user" && (
-            <Link to={"/dashboard"} className="hover:underline">
-              Dashboard
+        {user && (
+          <div className="flex flex-row gap-8 items-center">
+            {user?.role !== "user" && (
+              <Link to={"/dashboard"} className="hover:underline">
+                Dashboard
+              </Link>
+            )}
+            <Link to={"/profile"} className="hover:underline">
+              My profile
             </Link>
-          )}
-          <Link to={"/profile"} className="hover:underline">
-            My profile
-          </Link>
-          <Button type="default" className="text-white" onClick={handleLogOut}>
-            Sign out
-          </Button>
-        </div>
+            <Button
+              type="default"
+              className="text-white"
+              onClick={handleLogOut}
+            >
+              Sign out
+            </Button>
+          </div>
+        )}
       </div>
     </header>
   );

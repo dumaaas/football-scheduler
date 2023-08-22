@@ -103,7 +103,7 @@ const RegisterUser = ({ isUpdate = false }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: [UserKeys.USER],
+          queryKey: [UserKeys.USERS],
         });
         messageApi.open({
           type: "success",
